@@ -42,3 +42,12 @@ Decoraciones.prototype.constructor = Decoraciones;
 // var sol = new Decoraciones("img/sun.png", 10, 40, 120, 120, 30);
 // var nubeGrande = new Decoraciones("img/cloud.png", 30, 30, 283, 196, 40);
 // var nubeChica = new Decoraciones("img/cloud.png", 10, 10, 283 / 2, 196 / 2, 35);
+
+var Obstaculo = function(imagen, x, y, ancho, alto, potencia) {
+  Entidad.call(this, imagen, x, y, ancho, alto);
+  this.potencia = potencia;
+  this.chocar = function(jugador) {
+    jugador.perderVidas(this.potencia);
+    this.potencia = 0;
+  }
+}

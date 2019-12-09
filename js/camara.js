@@ -60,11 +60,7 @@ function Camera (x, y) {
   this.y = y || 0;
   this.focus = function(cvs, map, player) {
     // Account for half of player w/h to make their rectangle centered
-    this.x = this.clamp(
-      player.x - cvs.width / 2 + player.w / 2,
-      0,
-      map.w - cvs.width
-    );
+    this.x = this.clamp(player.x - cvs.width / 2 + player.w / 2,0,map.w - cvs.width);
     this.y = this.clamp(
       player.y - cvs.height / 2 + player.h / 2,
       0,

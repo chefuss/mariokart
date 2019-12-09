@@ -4,25 +4,33 @@
 var Juego = {
   anchoCanvas: 1860,
   altoCanvas: 640,
+  canvas: Escenario,
   jugador: Mario,
   decoraciones: [
-    new Decoraciones("img/cloud.png", 30, 30, 283, 196, 0.42),
-    new Decoraciones("img/sun.png", 10, 40, 120, 120, 0.1),
-    new Decoraciones("img/cloud.png", 10, 10, 283 / 2, 196 / 2, 0.15)
+    new Decoraciones("img/cloud.png", 30, 30, 283, 196, 0.02),
+    new Decoraciones("img/sun.png", 10, 40, 120, 120, 0.03),
+    new Decoraciones("img/cloud.png", 10, 10, 283 / 2, 196 / 2, 0.05)
   ],
-  teclas : {
-    arriba: false,
-    abajo: false,
-    derecha: false,
-    izquierda: false
-  }
+  obstaculos: [
+    new Obstaculo("img/piedra-1.png", 530, 450, 90, 90, 2),
+    new Obstaculo("img/piedra-2.png", 630, 300, 90, 90, 2)
+  ],
+  bordes: [
+    //image, x, y, ancho, alto, potencia
+    new Obstaculo("", 0, 320, 1860, 10, 0),
+    new Obstaculo("", 0, 640, 1860, 10, 0),
+    new Obstaculo("", 1860, 320, 10, 320, 0),
+    new Obstaculo("", 0, 320, 10, 320, 0)
+  ]
 };
 
 Juego.iniciarJuego = function() {
   Resources.load([
     "img/mario.png",
     "img/cloud.png",
-    "img/sun.png"
+    "img/sun.png",
+    "img/piedra-1.png",
+    "img/piedra-2.png"
   ]);
   Resources.onReady(this.comenzar.bind(Juego));
 }
@@ -37,7 +45,6 @@ Juego.buclePrincipal = function() {
   requestAnimationFrame(this.buclePrincipal.bind(this));
 }
 
-
 Juego.dibujar = function() {
 
   Escenario.borrarAreaDeJuego();
@@ -50,14 +57,49 @@ Juego.dibujar = function() {
   this.decoraciones.forEach(function(decoracion) {
     Escenario.dibujarEntidad(decoracion);
   })
-  
+
+  this.obstaculos.forEach(function(obstaculo) {
+    Escenario.dibujarEntidad(obstaculo);
+  })
 }
+
+Juego.todosLosObstaculos = function() {
+  return this.obstaculos.concat(this.bordes);
+};
 Juego.moverDecoraciones = function() {
   this.decoraciones.forEach(function(decoracion) {
     decoracion.movimiento();
   })
 }
+Juego.colisiones = function(x, y) {
+  var puedeMoverse = true;
+  this.todosLosObstaculos().forEach(function(obstaculo) {
+    if (this.intersecan(obstaculo, this.jugador, x, y)) {
+      obstaculo.chocar(this.jugador);
+      puedeMoverse = false;
+    } else {
+      puedeMoverse = true;
+    }
+  }, this);
+  return puedeMoverse;
+}
+Juego.intersecan = function(elemento1, elemento2, x, y) {
+  var izquierda1 = elemento1.x;
+  var derecha1 = izquierda1 + elemento1.ancho;
+  var techo1 = elemento1.y;
+  var piso1 = techo1 + elemento1.alto;
+  var izquierda2 = x;
+  var derecha2 = izquierda2 + elemento2.ancho;
+  var techo2 = y;
+  var piso2 = y + elemento2.alto;
 
+  return (
+    piso1 >= techo2 &&
+    techo1 <= piso2 &&
+    derecha1 >= izquierda2 &&
+    izquierda1 <= derecha2
+  );
+};
 Juego.crearCalle = function(cantidadLineas) {
   var distancia = 0;
   for (var i = 0; i < cantidadLineas; i++) {
@@ -82,8 +124,14 @@ Juego.capturarMovimiento = function(tecla) {
    if (tecla == "abajo") {
      movY = velocidad;
    }
-   this.jugador.mover(movX, movY);
-   Escenario.canvas.getContext("2d").translate(-Juego.jugador.velocidad, 0);
+  //  this.jugador.mover(movX, movY);
+
+  if (this.colisiones(movX + this.jugador.x, movY + this.jugador.y)) {
+    this.jugador.mover(movX, movY);
+    if(tecla == 'der' || tecla == 'izq') {
+      this.canvas.mover();
+    }
+  }
 }
 document.addEventListener("keydown", function(e) {
   var allowedKeys = {

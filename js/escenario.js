@@ -29,6 +29,9 @@ var Escenario = {
     var ctx = this.canvas.getContext("2d");
     ctx.fillStyle = color;
     ctx.fillRect(x, y, ancho, alto);
+  },
+  mover: function() {
+    this.canvas.getContext("2d").translate(-Juego.jugador.velocidad / 2, 0);
   }
 };
 
