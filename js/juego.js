@@ -13,14 +13,7 @@ var Juego = {
   ],
   obstaculos: [
     new Obstaculo("img/piedra-1.png", 530, 450, 90, 90, 2),
-    new Obstaculo("img/piedra-2.png", 630, 300, 90, 90, 2)
-  ],
-  bordes: [
-    //image, x, y, ancho, alto, potencia
-    new Obstaculo("", 0, 320, 1860, 10, 0),
-    new Obstaculo("", 0, 640, 1860, 10, 0),
-    new Obstaculo("", 1860, 320, 10, 320, 0),
-    new Obstaculo("", 0, 320, 10, 320, 0)
+    new Obstaculo("img/piedra-2.png", 630, 300, 90, 90, 2),
   ]
 };
 
@@ -63,9 +56,6 @@ Juego.dibujar = function() {
   })
 }
 
-Juego.todosLosObstaculos = function() {
-  return this.obstaculos.concat(this.bordes);
-};
 Juego.moverDecoraciones = function() {
   this.decoraciones.forEach(function(decoracion) {
     decoracion.movimiento();
@@ -73,7 +63,7 @@ Juego.moverDecoraciones = function() {
 }
 Juego.colisiones = function(x, y) {
   var puedeMoverse = true;
-  this.todosLosObstaculos().forEach(function(obstaculo) {
+  this.obstaculos.forEach(function(obstaculo) {
     if (this.intersecan(obstaculo, this.jugador, x, y)) {
       obstaculo.chocar(this.jugador);
       puedeMoverse = false;
