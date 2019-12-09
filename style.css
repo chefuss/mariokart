@@ -1,0 +1,117 @@
+/*// BASE STYLES //*/
+
+html, body{
+  height: 100%;
+  width:100%;
+  overflow: hidden;
+  margin: 0;
+}
+canvas {
+  background: dimgray;
+}
+.grass, .sky, .road{
+  position: relative;
+}
+
+.sky{
+  height: 40%;
+  background: skyblue;
+}
+
+.grass{
+  height: 30%;
+  background: seagreen;
+}
+
+.road{
+  height: 30%;
+  background: dimgrey;
+  box-sizing: border-box;
+  border-top: 10px solid grey;
+  border-bottom: 10px solid grey;
+  width: 100%;
+}
+
+.lines{
+  box-sizing: border-box;
+  border: 5px dashed #fff;
+  height: 0px;
+  width: 100%;
+  position: absolute;
+  top: 45%;
+}
+
+/*// ELEMENTS TO ANIMATE //*/
+
+.mario {
+  position: absolute;
+  /* top: -80px;
+  left: 0px; */
+/*   animation-name: conducir;
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  animation-delay: 2s;
+  animation-iteration-count: 2;
+  animation-timing-function: cubic-bezier(.17,.67,.83,.67); */
+  /* animation: conducir 3s both infinite cubic-bezier(.17,.67,.83,.67),
+             salto 0.3s 1.2s ease-in; */
+}
+
+.luigi {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  /* animation-name: conducir;
+  animation-duration: 3s;
+  animation-fill-mode: both;
+  animation-delay: 2s; 
+  animation-iteration-count: infinite;
+  animation-direction: normal;  
+  animation-timing-function: linear; */
+}
+
+.cloud {
+  position: absolute;
+}
+
+.cloud:nth-child(1) {
+  width: 200px;
+  top: 120px;
+  opacity: 0.5;
+  animation: viento 80s linear infinite reverse;
+}
+
+.cloud:nth-child(2) {
+  width: 300px;
+  top: 0px;
+  animation: viento 50s linear infinite reverse;
+}
+
+/*// KEYFRAMES //*/
+
+@keyframes conducir{
+  from { transform: translateX(-10px)}
+  to { transform: translateX(1550px)}
+}
+
+@keyframes conducir2{
+  from { transform: translateX(-10px)}
+  to { transform: translateX(1550px)}
+}
+
+@keyframes viento{
+  from { left: -300px }
+  to { left: 100% }
+}
+
+@keyframes salto{
+  0% { top: -40px }
+  50% { top: -100px }
+  100% { top: -40px }
+}
+
+
+
+
+
+
