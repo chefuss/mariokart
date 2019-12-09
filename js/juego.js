@@ -2,7 +2,7 @@
 // Escenario.dibujarEntidad(Mario);
 
 var Juego = {
-  anchoCanvas: 860,
+  anchoCanvas: 1860,
   altoCanvas: 640,
   jugador: Mario,
   decoraciones: [
@@ -32,9 +32,6 @@ Juego.comenzar = function() {
 }
 
 Juego.buclePrincipal = function() {
-  // Escenario.canvas.getContext("2d").setTransform(1, 0, 0, 1, 0, 0);
-  // Escenario.canvas.getContext("2d").clearRect(0, 0, this.anchoCanvas, this.altoCanvas);
-
   this.moverDecoraciones();
   this.dibujar();
   requestAnimationFrame(this.buclePrincipal.bind(this));
@@ -46,7 +43,7 @@ Juego.dibujar = function() {
   Escenario.borrarAreaDeJuego();
   Escenario.dibujarRectangulo("#2196f3",0,0,this.anchoCanvas,this.altoCanvas / 2);
 
-  this.crearCalle(26);
+  this.crearCalle(96);
 
   Escenario.dibujarEntidad(Mario);
 
@@ -68,30 +65,34 @@ Juego.crearCalle = function(cantidadLineas) {
     distancia += 50;
   }
 }
+Juego.capturarMovimiento = function(tecla) {
+   var movX = 0;
+   var movY = 0;
+   var velocidad = this.jugador.velocidad;
 
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp") {
-    Mario.topKey = true;
-  } else if (e.key === "ArrowRight") {
-    Mario.rightKey = true;
-  } else if (e.key === "ArrowDown") {
-    Mario.bottomKey = true;
-  } else if (e.key === "ArrowLeft") {
-    Mario.leftKey = true;
-  }
-  Mario.mover();
-});
-
-document.addEventListener("keyup", e => {
-  if (e.key === "ArrowUp") {
-    Mario.topKey = false;
-  } else if (e.key === "ArrowRight") {
-    Mario.rightKey = false;
-  } else if (e.key === "ArrowDown") {
-    Mario.bottomKey = false;
-  } else if (e.key === "ArrowLeft") {
-    Mario.leftKey = false;
-  }
+   if (tecla == "izq") {
+     movX = -velocidad;
+   }
+   if (tecla == "der") {
+     movX = velocidad;
+   }
+   if (tecla == "arriba") {
+     movY = -velocidad;
+   }
+   if (tecla == "abajo") {
+     movY = velocidad;
+   }
+   this.jugador.mover(movX, movY);
+   Escenario.canvas.getContext("2d").translate(-Juego.jugador.velocidad, 0);
+}
+document.addEventListener("keydown", function(e) {
+  var allowedKeys = {
+    37: "izq",
+    38: "arriba",
+    39: "der",
+    40: "abajo"
+  };
+  Juego.capturarMovimiento(allowedKeys[e.keyCode]);
 });
 
 Juego.iniciarJuego();

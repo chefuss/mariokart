@@ -10,25 +10,11 @@ function Entidad(imagen, posx, posy, ancho, alto) {
 
 function Jugador(imagen, posx, posy, ancho, alto) {
   Entidad.call(this, imagen, posx, posy, ancho, alto);
-  this.velocidad = 10;
+  this.velocidad = 25;
   this.vidas = 4;
-  this.topKey = false;
-  this.rightKey = false;
-  this.bottomKey = false;
-  this.leftKey = false;
-  this.mover = function() {
-    if (this.topKey) {
-      this.y -= this.velocidad * 2;
-    }
-    if (this.rightKey) {
-      this.x += this.velocidad * 2;
-    }
-    if (this.bottomKey) {
-      this.y += this.velocidad * 2;
-    }
-    if (this.leftKey) {
-      this.x -= this.velocidad * 2;
-    }
+  this.mover = function(movX, movY) {
+    this.x += movX;
+    this.y += movY;
   };
   this.perderVidas = function(cantidadVidas) {
     this.vidas -= cantidadVidas;
