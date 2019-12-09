@@ -32,8 +32,8 @@ Juego.comenzar = function() {
 }
 
 Juego.buclePrincipal = function() {
-  Escenario.canvas.getContext("2d").setTransform(1, 0, 0, 1, 0, 0);
-  Escenario.canvas.getContext("2d").clearRect(0, 0, this.anchoCanvas, this.altoCanvas);
+  // Escenario.canvas.getContext("2d").setTransform(1, 0, 0, 1, 0, 0);
+  // Escenario.canvas.getContext("2d").clearRect(0, 0, this.anchoCanvas, this.altoCanvas);
 
   this.moverDecoraciones();
   this.dibujar();
