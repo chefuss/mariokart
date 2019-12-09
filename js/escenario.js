@@ -34,10 +34,3 @@ var Escenario = {
     this.canvas.getContext("2d").translate(-Juego.jugador.velocidad / 2, 0);
   }
 };
-
-var Mundo = {
-  mh : 0,
-  mw : 0,
-  mWidth: 3800,
-  mHeigth: 640
-}

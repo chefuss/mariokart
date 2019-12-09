@@ -1,19 +1,13 @@
-// Escenario.inicializarCanvas(961, 577);
-// Escenario.dibujarEntidad(Mario);
-
 var Juego = {
-  anchoCanvas: 1860,
-  altoCanvas: 640,
-  canvas: Escenario,
-  jugador: Mario,
+  anchoCanvas: //definir el ancho de nuestro canvas, que no sea menor a 3000 (no lleva medida, es decir omitir px, em, etc),
+  altoCanvas: //definir el altoo de nuestro canvas, alrededor de 640 está bien,
+  canvas: //llamar a la clase que tiene definido el canvas,
+  jugador: //designar la entidad de nuestro jugador,
   decoraciones: [
-    new Decoraciones("img/cloud.png", 30, 30, 283, 196, 0.02),
-    new Decoraciones("img/sun.png", 10, 40, 120, 120, 0.03),
-    new Decoraciones("img/cloud.png", 10, 10, 283 / 2, 196 / 2, 0.05)
+    //crear decoraciones como sol y nubes
   ],
   obstaculos: [
-    new Obstaculo("img/piedra-1.png", 530, 450, 90, 90, 2),
-    new Obstaculo("img/piedra-2.png", 630, 300, 90, 90, 2),
+    //crear obstáculos
   ]
 };
 
@@ -28,7 +22,9 @@ Juego.iniciarJuego = function() {
   Resources.onReady(this.comenzar.bind(Juego));
 }
 Juego.comenzar = function() {
-  Escenario.inicializarCanvas(this.anchoCanvas, this.altoCanvas);
+
+  //debemos inicializar el Canvas.
+  //qué método tiene el canvas para inicializarse y  qué argumentos (propiedades) necesita?
   this.buclePrincipal();
 }
 
@@ -40,27 +36,30 @@ Juego.buclePrincipal = function() {
 
 Juego.dibujar = function() {
 
-  Escenario.borrarAreaDeJuego();
-  Escenario.dibujarRectangulo("#2196f3",0,0,this.anchoCanvas,this.altoCanvas / 2);
+  canvas.borrarAreaDeJuego();
+  //dibujar el cielo, es sólo un rectángulo de color "#2196f3", que ocupa todo el ancho del canvas y solo la mitad del alto. Fijate en Escenario si no hay un método que pueda ayudarte.
 
-  this.crearCalle(96);
+  //aquí deberíamos llamar a un método del objeto juego, que cree tantas líneas de calle como le pasemos por parámetro.
+  //por ejemplo: this.crearCalle(100) creará 100 líneas de la calle.
 
-  Escenario.dibujarEntidad(Mario);
+  //Deberíamos dibujar a Mario??
 
-  this.decoraciones.forEach(function(decoracion) {
-    Escenario.dibujarEntidad(decoracion);
-  })
+  //por cada entidad tipo nube o sol (no sé que nombre le has puesto) y que hayas creado previamente en Juego.decoraciones deberas dibujarla. Piensa en el forEach, después de todo this.decoraciones es un array.
+  
+  //siguiendo el paso anterior, debes repetir la acción para cada obstáculo.
 
-  this.obstaculos.forEach(function(obstaculo) {
-    Escenario.dibujarEntidad(obstaculo);
-  })
 }
 
-Juego.moverDecoraciones = function() {
-  this.decoraciones.forEach(function(decoracion) {
-    decoracion.movimiento();
-  })
-}
+//esta función está comentada porque la funcionalidad no está genial, pero si quieres puedes descomentarla y arreglarla. En el caso de que quieras mover los elementos que están dentro de this.decoraciones (que serán de la clase que le hayas puesto) debes agregarles el método movimiento. 
+
+// Juego.moverDecoraciones = function() {
+//   this.decoraciones.forEach(function(decoracion) {
+//     decoracion.movimiento();
+//   })
+// }
+
+//esta es una función vital, es la que nos va a permitir impedir a mario avanzar en caso de chocarse con un obstáculo.
+//la dejamos lista ya que no nos interesa tanto la lógica en este práctico.
 Juego.colisiones = function(x, y) {
   var puedeMoverse = true;
   this.obstaculos.forEach(function(obstaculo) {
@@ -90,13 +89,11 @@ Juego.intersecan = function(elemento1, elemento2, x, y) {
     izquierda1 <= derecha2
   );
 };
-Juego.crearCalle = function(cantidadLineas) {
-  var distancia = 0;
-  for (var i = 0; i < cantidadLineas; i++) {
-    Escenario.dibujarRectangulo("white", 65 + distancia , 430, 30, 10);
-    distancia += 50;
-  }
-}
+
+//deberías definir un método de Juego que cree las línea de la calle.
+
+//esta función la dejamos lista, es para capturar las teclas del usuario. Fijate los datos que utiliza. No nos interesa tanto la lógica como que veas que hace con el jugador y que propiedad de éste busca para hacerlo avanzar.
+
 Juego.capturarMovimiento = function(tecla) {
    var movX = 0;
    var movY = 0;
