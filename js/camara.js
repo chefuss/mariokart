@@ -13,7 +13,7 @@ function Player(x, y, w, h) {
   leftKey = false;
 
   this.w = w || 30;
-  this.h = h || 30;
+  this.h = h || 40;
   // This is where the player will spawn relative to the map
   this.x = x || this.w;
   this.y = y || this.h;
@@ -61,12 +61,12 @@ function Camera (x, y) {
   this.focus = function(cvs, map, player) {
     // Account for half of player w/h to make their rectangle centered
     this.x = this.clamp(
-      player.x - cvs.width + player.w / 2,
+      player.x - cvs.width / 2 + player.w / 2,
       0,
       map.w - cvs.width
     );
     this.y = this.clamp(
-      player.y - cvs.height + player.h / 2,
+      player.y - cvs.height / 2 + player.h / 2,
       0,
       map.h - cvs.height
     );
@@ -109,12 +109,12 @@ function Controls(player) {
 }
 
 var img = new Image();
-img.src = "img/background.png";
+img.src = "https://img.unocero.com/2012/04/libertaed-pixel-cup.jpg";
 img.addEventListener("load", () => {
   // Canvas/context
   var cvs = document.getElementById("canvas");
-  cvs.width = 1000;
-  cvs.height = 340;
+  cvs.width = 300;
+  cvs.height = 200;
   var ctx = cvs.getContext("2d");
 
   // Entities
